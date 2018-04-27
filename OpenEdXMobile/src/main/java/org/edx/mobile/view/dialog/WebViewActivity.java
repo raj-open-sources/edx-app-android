@@ -35,6 +35,15 @@ public class WebViewActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_webview);
         super.setToolbarAsActionBar();
 
+        // Check if the activity was opened due to a broadcast for which we have an IntentFilter
+        // for this activity in AndroidManifest.xml
+        if (getIntent().getData() != null) {
+            final String title = getIntent().getData().getHost();
+            final String url = getIntent().getData().getQueryParameter("fileLink");
+
+            getIntent().putExtra(ARG_URL, url).putExtra(ARG_TITLE, title);
+        }
+
         final ProgressBar progress = (ProgressBar) findViewById(R.id.loading_indicator);
         progress.setVisibility(View.GONE);
 
